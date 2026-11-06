@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Propina Difusa</title>
+  <meta name="description" content="Calculadora de propina con lógica difusa Mamdani: tiempo de servicio y precio de la cuenta.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232a78d6'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='white' font-family='sans-serif'%3E%25%3C/text%3E%3C/svg%3E">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <p class="eyebrow">Lógica difusa · Mamdani</p>
+      <h1>Calculadora de propina</h1>
+      <p class="lead">Mueve el tiempo de servicio y el precio de la cuenta; el sistema difuso recomienda el porcentaje de propina.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="grid-2">
+      <div class="card">
+        <h2>Datos del servicio</h2>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="tiempo-num">Tiempo de servicio</label>
+            <div class="num-wrap">
+              <input id="tiempo-num" type="number" inputmode="decimal" min="0" step="1">
+              <span class="unit">min</span>
+            </div>
+          </div>
+          <input id="tiempo-range" type="range" step="0.5" aria-label="Tiempo de servicio en minutos">
+          <div class="range-ends"><span id="tiempo-min"></span><span id="tiempo-max"></span></div>
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="precio-num">Precio de la cuenta</label>
+            <div class="num-wrap">
+              <span class="unit">$</span>
+              <input id="precio-num" type="number" inputmode="decimal" min="0" step="10">
+              <span class="unit">MXN</span>
+            </div>
+          </div>
+          <input id="precio-range" type="range" step="10" aria-label="Precio de la cuenta en pesos">
+          <div class="range-ends"><span id="precio-min"></span><span id="precio-max"></span></div>
+          <p id="precio-note" class="note" hidden></p>
+        </div>
+      </div>
+
+      <div class="card result" aria-live="polite">
+        <h2>Propina recomendada</h2>
+        <p class="hero"><span id="pct">—</span><span class="hero-unit">%</span></p>
+        <p class="tag">Nivel: <strong id="nivel">—</strong></p>
+        <dl class="totals">
+          <div><dt>Propina</dt><dd id="monto">—</dd></div>
+          <div><dt>Total a pagar</dt><dd id="total">—</dd></div>
+        </dl>
+        <p id="status" class="note"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Cómo se decidió</h2>
+      <p class="sub">Fuzzificación de las entradas y conjunto de salida agregado (implicación <code id="imp"></code>, agregación <code id="agg"></code>, defuzzificación <code id="defuzz"></code>).</p>
+      <div class="grid-3">
+        <figure class="plot">
+          <figcaption>Tiempo de servicio (min)</figcaption>
+          <canvas id="plot-tiempo" height="190" role="img" aria-label="Funciones de pertenencia de tiempo"></canvas>
+          <ul class="legend" id="legend-tiempo"></ul>
+        </figure>
+        <figure class="plot">
+          <figcaption>Precio de la cuenta (MXN)</figcaption>
+          <canvas id="plot-precio" height="190" role="img" aria-label="Funciones de pertenencia de precio"></canvas>
+          <ul class="legend" id="legend-precio"></ul>
+        </figure>
+        <figure class="plot">
+          <figcaption>Propina (%) — salida agregada</figcaption>
+          <canvas id="plot-salida" height="190" role="img" aria-label="Conjunto difuso de salida agregado"></canvas>
+          <ul class="legend" id="legend-salida"></ul>
+        </figure>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Base de reglas</h2>
+      <div class="table-wrap">
+        <table class="rules">
+          <thead>
+            <tr><th>#</th><th>Si tiempo es</th><th>y precio es</th><th>entonces propina es</th><th class="num">Disparo</th></tr>
+          </thead>
+          <tbody id="rules-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Superficie de control</h2>
+      <p class="sub">Propina recomendada para cada combinación de tiempo y precio. Pasa el cursor para ver el valor; haz clic para usar ese punto.</p>
+      <div class="surface">
+        <div class="surface-plot">
+          <canvas id="heatmap" height="320" role="img" aria-label="Mapa de calor de la propina según tiempo y precio"></canvas>
+          <div id="tooltip" class="tooltip" hidden></div>
+        </div>
+        <div class="scale">
+          <span id="scale-min"></span>
+          <div class="scale-bar" id="scale-bar"></div>
+          <span id="scale-max"></span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <p>Sistema definido en <a href="matlab/propina.fis" download>matlab/propina.fis</a> (Fuzzy Logic Designer de MATLAB). La página lee ese mismo archivo, así que cualquier cambio exportado desde MATLAB se refleja aquí.</p>
+    <p><a href="https://github.com/sebastiux/fuzzylogicrestaurante">Código en GitHub</a></p>
+  </footer>
+</body>
+</html>

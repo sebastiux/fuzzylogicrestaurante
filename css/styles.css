@@ -87,8 +87,8 @@ code { font-size: 13px; background: var(--row-active); padding: 1px 6px; border-
 
 .grid-2 { display: grid; gap: 20px; grid-template-columns: 1fr; }
 .grid-3 { display: grid; gap: 20px; grid-template-columns: 1fr; }
-@media (min-width: 760px) { .grid-2 { grid-template-columns: 1.2fr 1fr; } }
-@media (min-width: 960px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 760px) { .grid-2 { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+@media (min-width: 960px) { .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 /* ---------- inputs ---------- */
 .field + .field { margin-top: 24px; }
@@ -121,7 +121,7 @@ input[type="range"] { width: 100%; accent-color: var(--accent); height: 28px; ma
 /* ---------- plots ---------- */
 .plot { margin: 0; min-width: 0; }
 .plot figcaption { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-.plot canvas { display: block; width: 100%; }
+.plot canvas { display: block; width: 100%; max-width: 100%; }
 .legend { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 0; padding: 0; font-size: 13px; color: var(--ink-2); }
 .legend li { display: flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
 .legend i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
@@ -143,7 +143,7 @@ input[type="range"] { width: 100%; accent-color: var(--accent); height: 28px; ma
 .fire .bar span { display: block; height: 100%; background: var(--accent); border-radius: 0 3px 3px 0; }
 
 /* ---------- surface ---------- */
-.surface-plot { position: relative; }
+.surface-plot { position: relative; min-width: 0; }
 .surface-plot canvas { display: block; width: 100%; cursor: crosshair; }
 .tooltip {
   position: absolute; pointer-events: none; z-index: 2;

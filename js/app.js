@@ -75,7 +75,9 @@ async function loadFIS() {
 function prepCanvas(canvas) {
   const dpr = window.devicePixelRatio || 1;
   const w = canvas.clientWidth;
-  const h = Number(canvas.getAttribute('height'));
+  // La altura CSS se guarda una vez: canvas.height (abajo) reescribe el atributo
+  if (!canvas.dataset.cssHeight) canvas.dataset.cssHeight = canvas.getAttribute('height');
+  const h = Number(canvas.dataset.cssHeight);
   canvas.style.height = `${h}px`;
   if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
     canvas.width = Math.round(w * dpr);
@@ -462,8 +464,15 @@ async function main() {
   bindHeatmap();
   update();
 
-  let raf;
-  new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }).observe(document.querySelector('main'));
+  // Redibuja solo si cambia el ancho (evita un ciclo resize -> redibujo -> resize)
+  let raf, lastWidth = 0;
+  new ResizeObserver(([entry]) => {
+    const width = Math.round(entry.contentRect.width);
+    if (width === lastWidth) return;
+    lastWidth = width;
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(update);
+  }).observe(document.querySelector('main'));
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', update);
 }
 

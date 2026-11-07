@@ -58,8 +58,10 @@ fis = addRule(fis, reglas);
 showrule(fis)
 
 %% Guardar
-writeFIS(fis, 'propina');   % crea propina.fis en la carpeta actual
-disp('Guardado propina.fis');
+carpeta = fileparts(mfilename('fullpath'));
+if isempty(carpeta), carpeta = pwd; end
+writeFIS(fis, fullfile(carpeta, 'propina'));   % crea propina.fis junto a este script
+fprintf('Guardado %s\n', fullfile(carpeta, 'propina.fis'));
 
 %% Prueba rapida
 p = evalfis(fis, [15 800]);

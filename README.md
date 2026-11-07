@@ -14,6 +14,8 @@ y la calculadora web en GitHub Pages lee directamente el mismo archivo `matlab/p
 ├── js/app.js                interfaz, gráficas y superficie de control
 └── matlab/
     ├── propina.fis          sistema difuso (abrir en Fuzzy Logic Designer)
+    ├── abrir_designer.m     abre Fuzzy Logic Designer con todo configurado
+    ├── GUIA_DESIGNER.md     guía campo por campo para llenarlo a mano
     ├── crear_fis_propina.m  crea el .fis por código
     └── exportar_datos.m     extrae datos, tablas y gráficas
 ```
@@ -81,6 +83,9 @@ Por eso el mismo tiempo lento castiga menos cuando el precio es alto.
 ---
 
 ## 2. Definirlo en Fuzzy Logic Designer (a mano)
+
+> Guía detallada campo por campo (app nueva y editor clásico): [`matlab/GUIA_DESIGNER.md`](matlab/GUIA_DESIGNER.md).
+> Para abrirlo ya configurado: entra a `matlab/` y corre `abrir_designer`.
 
 1. En MATLAB escribe `fuzzyLogicDesigner` (R2023a+) o `fuzzy` (versiones anteriores).
 2. **Nuevo sistema → Mamdani** con 2 entradas y 1 salida.

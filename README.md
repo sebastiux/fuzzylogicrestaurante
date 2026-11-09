@@ -181,5 +181,6 @@ python3 -m http.server 8000   # abre http://localhost:8000
 
 ### Publicar en GitHub Pages
 
-**Settings → Pages → Build and deployment → Source: Deploy from a branch → rama con el código, carpeta `/ (root)` → Save.**
-En 1–2 minutos queda en `https://sebastiux.github.io/fuzzylogicrestaurante/`.
+El workflow `.github/workflows/pages.yml` corre las pruebas del motor difuso (`npm test`) y publica el sitio
+en cada push. Solo la primera vez: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+El sitio queda en `https://sebastiux.github.io/fuzzylogicrestaurante/`.
